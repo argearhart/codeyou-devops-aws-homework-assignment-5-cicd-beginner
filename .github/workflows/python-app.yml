@@ -43,7 +43,7 @@ jobs:
          
     - name: Security check with Safety
       run: |
-        safety check --file=requirements.txt --full-report
+        safety scan --file=requirements.txt --full-report
       
     - name: Security scan with Bandit
       run: |
