@@ -33,37 +33,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest safety bandit
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        
     - name: Test with pytest
       run: |
         pytest
-    - name: Python Safety Checker
-  # You may pin to the exact commit or the version.
-  # uses: shaypal5/python-safety-checker@93f39721e07aa24de9339d767a19f87fa66b8f77
-  uses: shaypal5/python-safety-checker@v1.0.6
-  with:
-    # Optional Safety script parameters. (e.g. --ignore=1234 or -i 1234)
-    safety_args: # optional, default is 
-    # Set true to scan required python packages without installing them.
-    scan_requirements_file_only: # optional, default is false
-
-      - name: Bandit Check
-  # You may pin to the exact commit or the version.
-  # uses: jpetrucciani/bandit-check@4e0dbcc188c035d2c4fb338a108ac93ed9d9d9be
-  uses: jpetrucciani/bandit-check@1.7.4
-  with:
-    # File or directory to run bandit on
-    path: # optional, default is .
-    # Optional Bandit flags (refer to `bandit --help`)
-    bandit_flags: # optional, default is 
-    # 
-    output: # optional
-          
-    
-    
-    
+        
+    - name: Security check with Safety
+      run: |
+      safety check --file=requirements.txt --full report
+      
+    - name: Security scan with Bandit
+      run: |
+      bandit -r .  
