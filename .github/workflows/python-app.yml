@@ -38,8 +38,16 @@ jobs:
       run: |
         pytest
           
-    - name: actions_python_safety
-
+                - name: Python Safety Checker
+  # You may pin to the exact commit or the version.
+  # uses: shaypal5/python-safety-checker@93f39721e07aa24de9339d767a19f87fa66b8f77
+  uses: shaypal5/python-safety-checker@v1.0.6
+  with:
+    # Optional Safety script parameters. (e.g. --ignore=1234 or -i 1234)
+    safety_args: # optional, default is 
+    # Set true to scan required python packages without installing them.
+    scan_requirements_file_only: # optional, default is false
+          
           
     
     
